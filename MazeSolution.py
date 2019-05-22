@@ -21,55 +21,50 @@ maze = ['111111111111111111',
         '101011110101010101',
         '1000000101000000#1',
         '111111111111111111']
+        
+for i, row in enumerate(maze):
+    for j, symbol in enumerate(row):
+        if symbol == 'x':
+            print('Start point: ' + str(i) + ', ' + str(j))
+            start_point = (i, j)
+        elif symbol == '#':
+            print('End point: ' + str(i) + ', ' + str(j))
+            end_point = (i, j)
 
-was = set()
+was = {}
 q = queue.Queue()
 
-start = (1, 1)
-current = (1, 1)
-end = '#'
-end_point = (0, 0)
+q.put(start_point)
+was[start_point] = None
 
-q.put(item=start)
-was.add(start)
-q.get()
+while q:
+    current_point = q.get()
+    if current_point == end_point:
+        break
 
-pathDict = collections.OrderedDict()
-step = 1
-end_point = (0, 0)
-while maze[current[0]][current[1]] != '#':
-    print("---")
-    print('Step ' + str(step) + ': (' + str(current[0]) + ', ' + str(current[1]) + ')')
+    if maze[current_point[0] - 1][current_point[1]] != '1':
+        if (current_point[0] - 1, current_point[1]) not in was.keys():
+            was[(current_point[0] - 1, current_point[1])] = current_point
+            q.put((current_point[0] - 1, current_point[1]))
+    if maze[current_point[0]][current_point[1] - 1] != '1':
+        if (current_point[0], current_point[1] - 1) not in was.keys():
+            was[(current_point[0], current_point[1] - 1)] = current_point
+            q.put((current_point[0], current_point[1] - 1))
+    if maze[current_point[0] + 1][current_point[1]] != '1':
+        if (current_point[0] + 1, current_point[1]) not in was.keys():
+            was[(current_point[0] + 1, current_point[1])] = current_point
+            q.put((current_point[0] + 1, current_point[1]))
+    if maze[current_point[0]][current_point[1] + 1] != '1':
+        if (current_point[0], current_point[1] + 1) not in was.keys():
+            was[(current_point[0], current_point[1] + 1)] = current_point
+            q.put((current_point[0], current_point[1] + 1))
 
-    if maze[current[0] - 1][current[1]] == '0' or maze[current[0] - 1][current[1]] == '#':
-        if (current[0] - 1, current[1]) not in was:
-            q.put(item=(current[0] - 1, current[1]))
-        if maze[current[0] - 1][current[1]] == '#':
-            end_point = (maze[current[0] - 1], [current[1]])
-    if maze[current[0]][current[1] - 1] == '0'or maze[current[0]][current[1] - 1] == '#':
-        if (current[0], current[1] - 1) not in was:
-            q.put(item=(current[0], current[1] - 1))
-        if maze[current[0]][current[1] - 1] == '#':
-            end_point = (maze[current[0]], [current[1] - 1])
-    if maze[current[0] + 1][current[1]] == '0'or maze[current[0] + 1][current[1]] == '#':
-        if (current[0] + 1, current[1]) not in was:
-            q.put(item=(current[0] + 1, current[1]))
-        if maze[current[0] + 1][current[1]] == '#':
-            end_point = (maze[current[0] + 1], [current[1]])
-    if maze[current[0]][current[1] + 1] == '0' or maze[current[0]][current[1] + 1] == '#':
-        if (current[0], current[1] + 1) not in was:
-            q.put(item=(current[0], current[1] + 1))
-        if maze[current[0]][current[1] + 1] == '#':
-            end_point = (current[0], current[1] + 1)
+path = [end_point, ]
+point = end_point
+while was[point] is not None:
+    path.append(was[point])
+    point = was[point]
 
-    prev = current
-    current = q.get()
-
-    pathDict[current] = prev
-    was.add(current)
-    step += 1
-
-print('\nthe end')
-print(end_point)
-
-# TODO: print path
+print("PATH:")
+for i, p in enumerate(path[::-1], start = 1):
+    print('Step ' + str(i) + ': ' + str(p))
