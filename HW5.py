@@ -38,17 +38,36 @@ def cached(func):
     return wrapper
 
 
+def once(func):
+    def wrapper(number):
+        if wrapper.was_called:
+            print('Function was already called!')
+        else:
+            res = func(number)
+            wrapper.was_called = True
+            return res
+
+    wrapper.was_called = False
+    return wrapper
+
+@once
+def my_power_three(number):
+    return number ** 3
+
+
+print(my_power_three(3))
+print(my_power_three(4))
+
+
 @timer
 @counted
 @cached
 def my_power_two(number):
-    return number * number
+    return number ** 2
 
 
 print(my_power_two(1))
 print(my_power_two(4))
 print(my_power_two(6))
 print(my_power_two(1))
-print(my_power_two(6))
-print(my_power_two(6))
 
