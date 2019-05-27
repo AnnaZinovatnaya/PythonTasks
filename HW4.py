@@ -74,11 +74,11 @@ for a in autos_sorted_with_lambda:
 print('-----------')
 
 
-def my_sort_func(items):
-    if items['price'] is None:
+def my_sort_func(item):
+    if item['price'] is None:
         return 0
     else:
-        return items['price']
+        return item['price']
 
 
 autos_sorted_with_my_func = sorted(autos, key=my_sort_func, reverse=True)
