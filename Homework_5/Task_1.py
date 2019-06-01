@@ -50,6 +50,7 @@ def once(func):
     wrapper.was_called = False
     return wrapper
 
+
 @once
 def my_power_three(number):
     return number ** 3
@@ -70,4 +71,3 @@ print(my_power_two(1))
 print(my_power_two(4))
 print(my_power_two(6))
 print(my_power_two(1))
-
