@@ -35,14 +35,10 @@ for address, dirs, files in os.walk('./lesson6'):
 
                 if city not in cities.keys():
                     cities[city] = {}
+                if search not in cities[city].keys():
                     cities[city][search] = set()
-                    cities[city][search].add(user_id)
-                else:
-                    if search not in cities[city].keys():
-                        cities[city][search] = set()
-                        cities[city][search].add(user_id)
-                    else:
-                        cities[city][search].add(user_id)
+
+                cities[city][search].add(user_id)
 
 # write data to files
 for city, city_data in cities.items():
