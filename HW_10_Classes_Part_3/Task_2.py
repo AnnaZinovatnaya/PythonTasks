@@ -40,6 +40,8 @@ class ProxyManager(object):
         # pprint.pprint(self.ok)
 
     def next_proxy(self):
+    	if len(self.ok) == 0:
+    		return "No more proxies"
         item = self.ok.pop(self.ok.index(max(self.ok)))
         return item
 
@@ -62,3 +64,5 @@ proxy_manager.back_proxy(proxy_manager.next_proxy(), 'error')
 proxy_manager.back_proxy(proxy_manager.next_proxy(), 'error')
 proxy_manager.back_proxy(proxy_manager.next_proxy(), 'error')
 
+for i in range(6):
+	print(proxy_manager.next_proxy())
