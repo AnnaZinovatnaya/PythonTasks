@@ -7,13 +7,13 @@ class CustomException(Exception):
         super().__init__(message)
 
     def log_to_file(self, path):
-        with open(path, 'w') as f:
-            f.write(f'Exception: {self.message}\n')
+        with open(path, 'a') as file:
+            file.write(f'Exception: {self.message}\n')
             for line in traceback.format_tb(self.__traceback__):
-                f.write(line)
+                file.write(line)
 
 
 try:
-    raise CustomException("custom exception")
+    raise CustomException('Some exception')
 except CustomException as e:
     e.log_to_file('log.txt')

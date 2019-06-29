@@ -1,8 +1,6 @@
 from datetime import datetime
-from contextlib import ContextDecorator
 
 
-#class timer(ContextDecorator):
 class timer:
     def __enter__(self):
         self.start_time = datetime.now()
@@ -12,7 +10,6 @@ class timer:
         print(f'Elapsed time: {elapsed_time}\n')
         return True
 
-    # incomment line 5, comment lines 16-24 - works as well
     def __call__(self, func):
         def wrapper(*args, **kwargs):
             start_time = datetime.now()
